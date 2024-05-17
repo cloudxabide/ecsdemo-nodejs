@@ -44,22 +44,13 @@ if [[ "${orchestrator}" == 'ecs' ]]; then
 fi
 
 if [[ "${orchestrator}" == 'kubernetes' ]]; then
-    if ((0<=${NETWORK} && ${NETWORK}<32))
+    if ((0<=${NETWORK}))
         then
             zone=a
-    elif ((32<=${NETWORK} && ${NETWORK}<64))
+    elif ((1<=${NETWORK}))
         then
             zone=b
-    elif ((64<=${NETWORK} && ${NETWORK}<96))
-        then
-            zone=c
-    elif ((96<=${NETWORK} && ${NETWORK}<128))
-        then
-            zone=a
-    elif ((128<=${NETWORK} && ${NETWORK}<160))
-        then
-            zone=b
-    elif ((160<=${NETWORK}))
+    elif ((2<=${NETWORK}))
         then
             zone=c
     else
