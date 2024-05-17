@@ -2,6 +2,8 @@
 
 set -x
 
+echo "Running from startup.sh"
+
 IP=$(ip route show |grep -o src.* |cut -f2 -d" ")
 # kubernetes sets routes differently -- so we will discover our IP differently
 if [[ ${IP} == "" ]]; then
@@ -46,13 +48,13 @@ fi
 if [[ "${orchestrator}" == 'kubernetes' ]]; then
     if ((0<=${NETWORK}))
         then
-            zone=a
+            zone=b
     elif ((1<=${NETWORK}))
         then
-            zone=b
+            zone=c
     elif ((2<=${NETWORK}))
         then
-            zone=c
+            zone=a
     else
         zone=unknown
     fi
