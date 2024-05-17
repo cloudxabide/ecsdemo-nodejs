@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -x
+echo "Running from startup-cdk.sh"
 
 IP=$(ip route show |grep -o src.* |cut -f2 -d" ")
 # kubernetes sets routes differently -- so we will discover our IP differently
@@ -44,28 +45,19 @@ if [[ "${orchestrator}" == 'ecs' ]]; then
 fi
 
 if [[ "${orchestrator}" == 'kubernetes' ]]; then
-    if ((0<=${NETWORK} && ${NETWORK}<32))
+    if ((0<=${NETWORK}))
         then
             zone=a
-    elif ((32<=${NETWORK} && ${NETWORK}<64))
+    elif ((1<=${NETWORK}))
         then
             zone=b
-    elif ((64<=${NETWORK} && ${NETWORK}<96))
-        then
-            zone=c
-    elif ((96<=${NETWORK} && ${NETWORK}<128))
-        then
-            zone=a
-    elif ((128<=${NETWORK} && ${NETWORK}<160))
-        then
-            zone=b
-    elif ((160<=${NETWORK}))
+    elif ((2<=${NETWORK}))
         then
             zone=c
     else
         zone=unknown
     fi
-fi 
+fi
 
 if [[ ${orchestrator} == 'unknown' ]]; then
   zone=$(curl -m2 -s http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.availabilityZone' | grep -o .$)
