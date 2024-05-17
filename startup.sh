@@ -46,18 +46,24 @@ if [[ "${orchestrator}" == 'ecs' ]]; then
 fi
 
 if [[ "${orchestrator}" == 'kubernetes' ]]; then
-    if ((0<=${NETWORK}))
-        then
-            zone=b
-    elif ((1<=${NETWORK}))
-        then
-            zone=c
-    elif ((2<=${NETWORK}))
-        then
-            zone=a
-    else
+      case "${NETWORK}" in
+      0)
+        zone=a
+        color=Crimson
+        ;;
+      1)
+        zone=b
+        color=CornflowerBlue
+        ;;
+      2)
+        zone=c
+        color=LightGreen
+        ;;
+      *)
         zone=unknown
-    fi
+        color=Yellow
+        ;;
+    esac
 fi 
 
 if [[ ${orchestrator} == 'unknown' ]]; then
