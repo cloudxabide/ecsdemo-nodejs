@@ -45,26 +45,27 @@ if [[ "${orchestrator}" == 'ecs' ]]; then
     esac
 fi
 
+# Regardless of the number of AZ this "case statement" will categorize them in one of three "buckets"
 if [[ "${orchestrator}" == 'kubernetes' ]]; then
-      case "${NETWORK}" in
-      0)
-        zone=a
-        color=Crimson
+    case $(( ${NETWORK} % 3 )) in
+        0)
+          zone=a
+          color=Crimson
         ;;
-      1)
-        zone=b
-        color=CornflowerBlue
+        1)
+          zone=b
+          color=CornflowerBlue
         ;;
-      2)
-        zone=c
-        color=LightGreen
+        2)
+          zone=c
+          color=LightGreen
         ;;
-      *)
-        zone=unknown
-        color=Yellow
+        *)
+          zone=unknown
+          color=Yellow
         ;;
     esac
-fi 
+fi
 
 if [[ ${orchestrator} == 'unknown' ]]; then
   zone=$(curl -m2 -s http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.availabilityZone' | grep -o .$)
